@@ -3,7 +3,7 @@
 #
 # Should you change your keyboard layout some time, delete
 # this file and re-run i3-config-wizard(1).
-#
+# Modified and put together by DasGeek w/ the help of other tweakers everywhere. 
 
 # i3 config file (v4)
 #
@@ -25,6 +25,19 @@ font pango:monospace 8
 # clear in small sizes. However, its unicode glyph coverage is limited, the old
 # X core fonts rendering does not support right-to-left and this being a bitmap
 # font, it doesn’t scale on retina/hidpi displays.
+
+
+# KEY DEFINITIONS TO REMEMBER
+
+# $Mod = WINDOWS key or Super key or Mod4
+# Mod1 = ALT key
+# Control = CTRL key
+# Shift = SHIFT key
+# Escape = ESCAPE key
+# Return = ENTER or RETURN key
+# Pause = PAUSE key
+# Print = PRINT key
+# Tab = TAB key
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -117,6 +130,42 @@ bindsym $mod+8 workspace $ws8
 bindsym $mod+9 workspace $ws9
 bindsym $mod+0 workspace $ws10
 
+################### DUAL SCREEN ######################
+
+
+# setting variables for later use
+# use xrandr and/or arandr to know the names of your monitors
+# use this line to tell which monitor is on the right
+# xrandr --output DVI-I-2 --right-of DVI-I-1 --auto
+
+# my current setup - type xrandr in terminal to get your device names
+set $firstMonitor DVI-I-1
+set $secondMonitor DVI-I-2
+
+#set $firstMonitor LVDS1
+#set $secondMonitor LVDS1
+
+#set $firstMonitor DVI-I-2
+#set $secondMonitor VGA-0
+
+#set $firstMonitor DVI-I-2
+#set $secondMonitor DVI-I-3
+
+#set $firstMonitor DVI-0
+#set $secondMonitor DVI-1
+
+#which workspaces appear on which monitor
+workspace 1 output $firstMonitor
+workspace 2 output $firstMonitor
+workspace 3 output $firstMonitor
+workspace 4 output $firstMonitor
+workspace 5 output $firstMonitor
+workspace 6 output $secondMonitor
+workspace 7 output $secondMonitor
+workspace 8 output $secondMonitor
+workspace 9 output $secondMonitor
+workspace 10 output $secondMonitor
+
 #Laptop or external keyboard control Dell using amixer
 bindsym XF86AudioRaiseVolume exec amixer -D pulse sset Master 5%+
 bindsym XF86AudioLowerVolume exec amixer -D pulse sset Master 5%-
@@ -124,6 +173,27 @@ bindsym XF86AudioMute exec amixer -D pulse set Master 1+ toggle
 #bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
 #bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
 #bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+
+################### MOUSE ######################
+
+#Stop window focus changing with cursor
+focus_follows_mouse no
+
+# mouse settings
+# The middle button over a titlebar kills the window
+# bindsym --release button2 kill
+
+# The middle button and a modifer over any part of the window kills the window
+# bindsym --whole-window $mod+button2 kill
+
+# The right button toggles floating
+# bindsym button3 floating toggle
+# bindsym $mod+button3 floating toggle
+
+# The side buttons move the window around
+# bindsym button9 move left
+# bindsym button8 move right
+
 
 
 # Screen brightness controls
@@ -193,10 +263,13 @@ bar {
 # bar toggle, hide or show 
 bindsym $mod+Shift+m bar mode toggle
 
+#screenshot shortcut
+bindsym Control+Print exec gnome-screenshot -i
+
 # Startup Applications
 exec_always feh --bg-scale /home/dasgeek/Firefox_wallpaper.png
 exec --no-startup-id xfce4-panel --disable-wm-check
-exec --no-startup-id compton
+exec --no-startup-id compton --config ~/.config/compton.conf -b
 exec nautilus
 assign [class="Nautilus"] 2
 exec subl
@@ -209,3 +282,118 @@ exec simplenote
 assign [class="Simplenote"] 3
 exec telegram-desktop
 assign [class=Telegram] 5
+
+# DarkGrey background with white text - not focus grey background - black text
+# Windows decoration colors
+# class                 border  backgr. text    indicator
+client.placeholder      #242424 #242424 #242424
+client.background       #242424 #242424 #242424
+client.focused          #4A4A4A #4A4A4A #e5e5e5 #4A4A4A
+client.unfocused        #222222 #222222 #aaaaaa #222222
+client.focused_inactive #222222 #222222 #a9a9a9 #222222
+client.urgent #4A4A4A #4A4A4A #f7f7f7 #4A4A4A
+
+#filemanager focus
+for_window [class="Nemo"] focus
+for_window [class="Nautilus"] focus
+for_window [class="Caja"] focus
+for_window [class="Thunar"] focus
+
+# get the mouse out of the way with unclutter
+exec unclutter 
+
+################### BORDER ######################
+
+
+# Border control
+hide_edge_borders both
+bindsym $mod+shift+b exec i3-msg border toggle
+
+#changing border style
+bindsym $mod+t border normal
+bindsym $mod+y border 1pixel
+bindsym $mod+u border none
+
+
+#new_window pixel 1
+new_window normal
+#new_window none
+
+#new_float pixel 1
+new_float normal
+#new_float none
+
+################### FLOATING OR TILED ######################
+
+
+#floating enabled from some programs - find with xprop
+#for_window [class="Gnome-disks"] floating enable
+for_window [class="^Skype$"] floating enable
+for_window [class="^Gnome-font-viewer$"] floating enable
+for_window [class="^Gpick$"] floating enable
+#for_window [class="^Vlc$"] floating enable
+#for_window [class="^Spotify$"] floating enable workspace 10
+#for_window [instance="gimp"] floating enable
+for_window [window_role="^gimp-toolbox-color-dialog$"] floating enable
+#for_window [instance="variety"] floating enable
+#for_window [class="Gnome-system-monitor"] floating enable
+#for_window [class="Mate-system-monitor"] floating enable
+#for_window [class="Xfce4-taskmanager"] floating enable
+#for_window [class="Brasero"] floating enable
+#for_window [class="Xfburn"] floating enable
+for_window [class="Xfce4-appfinder"] floating enable
+#for_window [class="Wine"] floating enable
+for_window [class="Pavucontrol"] floating enable
+for_window [window_role="pop-up"] floating enable
+for_window [window_role="^Preferences$"] floating enable
+for_window [window_role="setup"] floating enable
+for_window [title="^Terminator Preferences$"] floating enable
+#for_window [class="Font-manager"] floating enable
+for_window [class="System-config-printer.py"] floating enable
+for_window [class="Nitrogen"] floating enable
+for_window [title="Copying"] floating enable  
+for_window [title="Deleting"] floating enable  
+for_window [title="Moving"] floating enable
+for_window [class="Unetbootin.elf"] floating enable
+for_window [class="Galculator"] floating enable
+for_window [class="Usb-creator-gtk"] floating enable
+for_window [instance="script-fu"] border normal
+for_window [class="Imagewriter"] floating enable
+#for_window [class="MintUpdate.py"] floating enable
+#for_window [class="Bleachbit"] floating enable
+#for_window [class="Hexchat"] floating disable
+for_window [class="Xfce4-settings-manager"] floating disable
+for_window [class="Gnome-control-center"] floating disable
+for_window [class="Gnome-terminal"] focus
+
+################### SHORTCUTS WORKSPACES ######################
+
+
+# next/previous workspace
+
+bindsym Mod1+Tab workspace next
+bindsym Mod1+Shift+Tab workspace prev
+bindsym $mod+Tab workspace back_and_forth
+
+#navigate workspaces next / previous
+bindsym Mod1+Ctrl+Right workspace next
+bindsym Mod1+Ctrl+Left workspace prev
+
+# switch to workspace with urgent window automatically
+for_window [urgent=latest] focus
+
+# KEY DEFINITIONS TO REMEMBER
+
+# $Mod = WINDOWS key or Super key or Mod4
+# Mod1 = ALT key
+# Control = CTRL key
+# Shift = SHIFT key
+# Escape = ESCAPE key
+# Return = ENTER or RETURN key
+# Pause = PAUSE key
+# Print = PRINT key
+# Tab = TAB key
+
+
+#Popups during fullscreen mode
+popup_during_fullscreen smart
