@@ -136,11 +136,11 @@ bindsym $mod+0 workspace $ws10
 # setting variables for later use
 # use xrandr and/or arandr to know the names of your monitors
 # use this line to tell which monitor is on the right
-# xrandr --output DVI-I-2 --right-of DVI-I-1 --auto
+#xrandr --output DVI-D-1 --right-of HDMI-1 --auto
 
 # my current setup - type xrandr in terminal to get your device names
-set $firstMonitor DVI-I-1
-set $secondMonitor DVI-I-2
+set $firstMonitor DVI-D-1
+set $secondMonitor HDMI-1
 
 #set $firstMonitor LVDS1
 #set $secondMonitor LVDS1
@@ -273,7 +273,7 @@ exec --no-startup-id compton --config ~/.config/compton.conf -b
 exec nautilus
 assign [class="Nautilus"] 2
 exec subl
-assign [class="Sublime_Text"] 4
+assign [class="sublime-text|sublime_text|Sublime_text|subl|Subl|subl3|Subl3"] → 6
 exec firefox 
 assign [class="Firefox"] 1
 exec gnome-terminal
