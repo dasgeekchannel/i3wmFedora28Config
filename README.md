@@ -20,3 +20,5 @@ Manual Instructions:
    - This key combo refreshes your i3 and you should see my config kick off
    - Don't forget to change the wallpaper path in the feh portion of the config to use your own wallpaper
    - Enjoy!
+
+Install: xfce4-panel xfce4-pulseaudio-plugin xfce4-whiskermenu-plugin xfce4-weather-plugin xfce4-sensors-plugin xfce4-goodies
